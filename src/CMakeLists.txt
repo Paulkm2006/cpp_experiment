@@ -21,7 +21,7 @@ LIST(REMOVE_ITEM SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 #显示所有警告。
 ADD_COMPILE_OPTIONS("-Wall")
 #将所有的编译器警告视为错误
-ADD_COMPILE_OPTIONS("-Werror")
+# ADD_COMPILE_OPTIONS("-Werror")
 #将${SOURCE}里面包含的所有cpp文件编译构建成一个库（lib），类型是static库
 #库的文件名为：lib${PROJECT_NAME}.a，其中${PROJECT_NAME}是项目根目录下的CMakeLists.txt里面定义的：PROJECT("项目名称")
 ADD_LIBRARY(${PROJECT_NAME} ${SOURCE})

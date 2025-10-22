@@ -7,6 +7,10 @@
 #""是docstring，用于在cmake-gui里显示该命令的介绍
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 
+# Ensure gtest uses the same runtime library as the main project
+# Set gtest_force_shared_crt to ON to use dynamic runtime library (/MDd for Debug, /MD for Release)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 ##添加googletest子目录，并且使得 CMake 在构建过程中进入该子目录继续处理其中的 CMakeLists.txt 文件。
 ADD_SUBDIRECTORY(googletest EXCLUDE_FROM_ALL)
 

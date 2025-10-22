@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 PROJECT("CPP_EXPR")
 
-SET(CMAKE_CXX_STANDARD 26)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS "-Wall")
 
 #可执行文件输出目录
