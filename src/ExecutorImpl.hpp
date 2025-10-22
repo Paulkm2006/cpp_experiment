@@ -25,6 +25,31 @@ namespace adas
 		void move(void) noexcept;
 		void left(void) noexcept;
 		void right(void) noexcept;
+
+		class MoveCmd final
+		{
+		public:
+			void DoOperate(ExecutorImpl &executor) const noexcept
+			{
+				executor.move();
+			}
+		};
+		class LeftCmd final
+		{
+		public:
+			void DoOperate(ExecutorImpl &executor) const noexcept
+			{
+				executor.left();
+			}
+		};
+		class RightCmd final
+		{
+		public:
+			void DoOperate(ExecutorImpl &executor) const noexcept
+			{
+				executor.right();
+			}
+		};
 	};
 
 } // namespace adas
