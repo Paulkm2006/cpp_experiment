@@ -21,24 +21,26 @@ namespace adas
 	{
 		for (const char &c : command)
 		{
+			std::unique_ptr<ICommand> cmd;
 			if (c == 'M')
 			{
-				std::unique_ptr<MoveCmd> cmd = std::make_unique<MoveCmd>();
-				cmd->DoOperate(*this);
+				cmd = std::make_unique<MoveCmd>();
 			}
 			else if (c == 'L')
 			{
-				std::unique_ptr<LeftCmd> cmd = std::make_unique<LeftCmd>();
-				cmd->DoOperate(*this);
+				cmd = std::make_unique<LeftCmd>();
 			}
 			else if (c == 'R')
 			{
-				std::unique_ptr<RightCmd> cmd = std::make_unique<RightCmd>();
-				cmd->DoOperate(*this);
+				cmd = std::make_unique<RightCmd>();
 			}
 			else if (c == 'F')
 			{
 				isFast = !isFast;
+			}
+			if (cmd)
+			{
+				cmd->DoOperate(*this);
 			}
 		}
 	}

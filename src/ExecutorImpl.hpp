@@ -26,26 +26,33 @@ namespace adas
 		void left(void) noexcept;
 		void right(void) noexcept;
 
-		class MoveCmd final
+		class ICommand
 		{
 		public:
-			void DoOperate(ExecutorImpl &executor) const noexcept
+			virtual ~ICommand() noexcept = default;
+			virtual void DoOperate(ExecutorImpl &executor) const noexcept = 0;
+		};
+
+		class MoveCmd final : public ICommand
+		{
+		public:
+			void DoOperate(ExecutorImpl &executor) const noexcept override
 			{
 				executor.move();
 			}
 		};
-		class LeftCmd final
+		class LeftCmd final : public ICommand
 		{
 		public:
-			void DoOperate(ExecutorImpl &executor) const noexcept
+			void DoOperate(ExecutorImpl &executor) const noexcept override
 			{
 				executor.left();
 			}
 		};
-		class RightCmd final
+		class RightCmd final : public ICommand
 		{
 		public:
-			void DoOperate(ExecutorImpl &executor) const noexcept
+			void DoOperate(ExecutorImpl &executor) const noexcept override
 			{
 				executor.right();
 			}
