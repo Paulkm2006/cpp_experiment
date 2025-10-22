@@ -36,7 +36,7 @@ namespace adas
 			}
 			else if (c == 'F')
 			{
-				isFast = !isFast;
+				cmd = std::make_unique<FastCmd>();
 			}
 			if (cmd)
 			{
@@ -107,5 +107,10 @@ namespace adas
 		default:
 			break;
 		}
+	}
+
+	void ExecutorImpl::fast(void) noexcept
+	{
+		isFast = !isFast;
 	}
 } // namespace adas

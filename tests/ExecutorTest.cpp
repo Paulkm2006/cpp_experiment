@@ -148,4 +148,14 @@ namespace adas
 
 		ASSERT_EQ(executor->Query(), target);
 	}
+
+	TEST(ExecutorTest, should_double_speed_after_fast_command)
+	{
+		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
+		const Pose target({0, 2, 'N'});
+
+		executor->Execute("FM");
+
+		ASSERT_EQ(executor->Query(), target);
+	}
 }

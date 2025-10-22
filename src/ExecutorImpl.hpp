@@ -25,6 +25,7 @@ namespace adas
 		void move(void) noexcept;
 		void left(void) noexcept;
 		void right(void) noexcept;
+		void fast(void) noexcept;
 
 		class ICommand
 		{
@@ -57,6 +58,13 @@ namespace adas
 				executor.right();
 			}
 		};
+		class FastCmd final : public ICommand
+		{
+		public:
+			void DoOperate(ExecutorImpl &executor) const noexcept override
+			{
+				executor.fast();
+			}
+		};
 	};
-
 } // namespace adas
