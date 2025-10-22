@@ -15,6 +15,7 @@
 src/main
 tags
 tests/googletest
+bin/*
 
 cmake-build-debug
 

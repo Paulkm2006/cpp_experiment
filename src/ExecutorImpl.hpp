@@ -20,6 +20,11 @@ namespace adas
 	private:
 		/// @brief The current pose of the executor
 		Pose pose;
+		bool isFast;
+
+		void move(void) noexcept;
+		void left(void) noexcept;
+		void right(void) noexcept;
 	};
 
 } // namespace adas

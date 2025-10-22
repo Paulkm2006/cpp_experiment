@@ -4,7 +4,7 @@
 
 namespace adas
 {
-	ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept : pose(pose) {}
+	ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept : pose(pose), isFast(false) {}
 
 	Pose ExecutorImpl::Query(void) const noexcept
 	{
@@ -22,64 +22,84 @@ namespace adas
 		{
 			if (c == 'M')
 			{
-				switch (pose.heading)
-				{
-				case 'N':
-					pose.y += 1;
-					break;
-				case 'E':
-					pose.x += 1;
-					break;
-				case 'S':
-					pose.y -= 1;
-					break;
-				case 'W':
-					pose.x -= 1;
-					break;
-				default:
-					break;
-				}
+				move();
 			}
 			else if (c == 'L')
 			{
-				switch (pose.heading)
-				{
-				case 'N':
-					pose.heading = 'W';
-					break;
-				case 'W':
-					pose.heading = 'S';
-					break;
-				case 'S':
-					pose.heading = 'E';
-					break;
-				case 'E':
-					pose.heading = 'N';
-					break;
-				default:
-					break;
-				}
+				left();
 			}
 			else if (c == 'R')
 			{
-				switch (pose.heading)
-				{
-				case 'N':
-					pose.heading = 'E';
-					break;
-				case 'E':
-					pose.heading = 'S';
-					break;
-				case 'S':
-					pose.heading = 'W';
-					break;
-				case 'W':
-					pose.heading = 'N';
-					break;
-				default:
-					break;
-				}
+				right();
 			}
+			else if (c == 'F')
+			{
+				isFast = !isFast;
+			}
+		}
+	}
+
+	void ExecutorImpl::move(void) noexcept
+	{
+		int step = isFast ? 2 : 1;
+		switch (pose.heading)
+		{
+		case 'N':
+			pose.y += step;
+			break;
+		case 'E':
+			pose.x += step;
+			break;
+		case 'S':
+			pose.y -= step;
+			break;
+		case 'W':
+			pose.x -= step;
+			break;
+		default:
+			break;
+		}
+	}
+
+	void ExecutorImpl::left(void) noexcept
+	{
+		switch (pose.heading)
+		{
+		case 'N':
+			pose.heading = 'W';
+			break;
+		case 'W':
+			pose.heading = 'S';
+			break;
+		case 'S':
+			pose.heading = 'E';
+			break;
+		case 'E':
+			pose.heading = 'N';
+			break;
+		default:
+			break;
+		}
+	}
+
+	void ExecutorImpl::right(void) noexcept
+	{
+		switch (pose.heading)
+		{
+		case 'N':
+			pose.heading = 'E';
+			break;
+		case 'E':
+			pose.heading = 'S';
+			break;
+		case 'S':
+			pose.heading = 'W';
+			break;
+		case 'W':
+			pose.heading = 'N';
+			break;
+		default:
+			break;
 		}
 	}
 } // namespace adas
