@@ -149,13 +149,51 @@ namespace adas
 		ASSERT_EQ(executor->Query(), target);
 	}
 
-	TEST(ExecutorTest, should_double_speed_after_fast_command)
+	// Fast mode related tests
+	TEST(ExecutorTest, should_return_x_plus_2_given_status_is_fast_command_is_M_and_facing_is_E)
 	{
-		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
-		const Pose target({0, 2, 'N'});
+		// turn on fast mode then move once -> step should be 2 when facing East
+		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+		const Pose target({2, 0, 'E'});
 
 		executor->Execute("FM");
 
 		ASSERT_EQ(executor->Query(), target);
 	}
+
+	TEST(ExecutorTest, should_return_N_and_x_plus_1_given_status_is_fast_command_is_L_and_facing_is_E)
+	{
+		// turn on fast, then rotate left (to N) and move once while still fast -> moving north
+		// To match the original intent of checking both rotation and movement, use sequence: F L M
+		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+		const Pose target({0, 2, 'N'});
+
+		executor->Execute("FLM");
+
+		ASSERT_EQ(executor->Query(), target);
+	}
+
+	TEST(ExecutorTest, should_return_S_and_x_plus_1_given_status_is_fast_given_command_is_R_and_facing_is_E)
+	{
+		// turn on fast, then rotate right (to S) and move once while still fast -> moving south
+		// Use sequence: F R M
+		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+		const Pose target({0, -2, 'S'});
+
+		executor->Execute("FRM");
+
+		ASSERT_EQ(executor->Query(), target);
+	}
+
+	TEST(ExecutorTest, should_return_y_plus_1_given_command_is_FFM_and_facing_is_N)
+	{
+		// F toggles fast on, second F toggles it off, then M moves by 1
+		std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'N'}));
+		const Pose target({0, 1, 'N'});
+
+		executor->Execute("FFM");
+
+		ASSERT_EQ(executor->Query(), target);
+	}
+
 }
