@@ -3,33 +3,27 @@
 namespace adas
 {
 
-	PoseHandler::PoseHandler(const Pose &pose) noexcept : pose(pose), fast(false), back(false)
+	PoseHandler::PoseHandler(const Pose &pose) noexcept : point(pose.x, pose.y), facing(&Direction::GetDirection(pose.heading)), fast(false), back(false)
 	{
 	}
 
 	void PoseHandler::Move(void) noexcept
 	{
-		int step = fast ? 2 : 1;
-		int direction = back ? -1 : 1;
-
-		for (int i = 0; i < step; ++i)
+		if (back)
 		{
-			switch (pose.heading)
+			point -= facing->Move();
+			if (fast)
 			{
-			case 'N':
-				pose.y += direction;
-				break;
-			case 'E':
-				pose.x += direction;
-				break;
-			case 'S':
-				pose.y -= direction;
-				break;
-			case 'W':
-				pose.x -= direction;
-				break;
-			default:
-				break;
+				point -= facing->Move();
+			}
+			return;
+		}
+		else
+		{
+			point += facing->Move();
+			if (fast)
+			{
+				point += facing->Move();
 			}
 		}
 	}
@@ -40,61 +34,13 @@ namespace adas
 		{
 			if (fast)
 			{
-				switch (pose.heading)
-				{
-				case 'N':
-					pose.y -= 1;
-					break;
-				case 'E':
-					pose.x -= 1;
-					break;
-				case 'S':
-					pose.y += 1;
-					break;
-				case 'W':
-					pose.x += 1;
-					break;
-				default:
-					break;
-				}
+				point -= facing->Move();
 			}
-			switch (pose.heading)
-			{
-			case 'N':
-				pose.heading = 'E';
-				break;
-			case 'E':
-				pose.heading = 'S';
-				break;
-			case 'S':
-				pose.heading = 'W';
-				break;
-			case 'W':
-				pose.heading = 'N';
-				break;
-			default:
-				break;
-			}
+			facing = &facing->RightOne();
 		}
 		else
 		{
-			switch (pose.heading)
-			{
-			case 'N':
-				pose.heading = 'W';
-				break;
-			case 'W':
-				pose.heading = 'S';
-				break;
-			case 'S':
-				pose.heading = 'E';
-				break;
-			case 'E':
-				pose.heading = 'N';
-				break;
-			default:
-				break;
-			}
+			facing = &facing->LeftOne();
 		}
 	}
 
@@ -104,62 +50,13 @@ namespace adas
 		{
 			if (fast)
 			{
-				switch (pose.heading)
-				{
-				case 'N':
-					pose.y -= 1;
-					break;
-				case 'E':
-					pose.x -= 1;
-					break;
-				case 'S':
-					pose.y += 1;
-					break;
-				case 'W':
-					pose.x += 1;
-					break;
-				default:
-					break;
-				}
+				point -= facing->Move();
 			}
-			switch (pose.heading)
-			{
-			case 'N':
-				pose.heading = 'W';
-				break;
-			case 'W':
-				pose.heading = 'S';
-				break;
-			case 'S':
-				pose.heading = 'E';
-				break;
-			case 'E':
-				pose.heading = 'N';
-				break;
-			default:
-				break;
-			}
+			facing = &facing->LeftOne();
 		}
 		else
 		{
-			// Normal right turn
-			switch (pose.heading)
-			{
-			case 'N':
-				pose.heading = 'E';
-				break;
-			case 'E':
-				pose.heading = 'S';
-				break;
-			case 'S':
-				pose.heading = 'W';
-				break;
-			case 'W':
-				pose.heading = 'N';
-				break;
-			default:
-				break;
-			}
+			facing = &facing->RightOne();
 		}
 	}
 
@@ -185,6 +82,6 @@ namespace adas
 
 	Pose PoseHandler::Query(void) const noexcept
 	{
-		return pose;
+		return {point.GetX(), point.GetY(), facing->GetHeading()};
 	}
 }
