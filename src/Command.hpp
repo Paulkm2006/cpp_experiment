@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ExecutorImpl.hpp"
+#include "PoseHandler.hpp"
 
 namespace adas
 {
@@ -8,39 +8,39 @@ namespace adas
 	{
 	public:
 		virtual ~ICommand() noexcept = default;
-		virtual void DoOperate(ExecutorImpl &executor) const noexcept = 0;
+		virtual void DoOperate(PoseHandler &poseHandler) const noexcept = 0;
 	};
 
 	class MoveCmd final : public ICommand
 	{
 	public:
-		void DoOperate(ExecutorImpl &executor) const noexcept override
+		void DoOperate(PoseHandler &poseHandler) const noexcept override
 		{
-			executor.move();
+			poseHandler.Move();
 		}
 	};
 	class LeftCmd final : public ICommand
 	{
 	public:
-		void DoOperate(ExecutorImpl &executor) const noexcept override
+		void DoOperate(PoseHandler &poseHandler) const noexcept override
 		{
-			executor.left();
+			poseHandler.Left();
 		}
 	};
 	class RightCmd final : public ICommand
 	{
 	public:
-		void DoOperate(ExecutorImpl &executor) const noexcept override
+		void DoOperate(PoseHandler &poseHandler) const noexcept override
 		{
-			executor.right();
+			poseHandler.Right();
 		}
 	};
 	class FastCmd final : public ICommand
 	{
 	public:
-		void DoOperate(ExecutorImpl &executor) const noexcept override
+		void DoOperate(PoseHandler &poseHandler) const noexcept override
 		{
-			executor.fast();
+			poseHandler.Fast();
 		}
 	};
 }

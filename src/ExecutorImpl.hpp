@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Executor.hpp"
+#include "PoseHandler.hpp"
 #include <string>
 
 namespace adas
@@ -14,17 +15,10 @@ namespace adas
 		ExecutorImpl(const ExecutorImpl &) = delete;
 		ExecutorImpl &operator=(const ExecutorImpl &) = delete;
 
-		Pose Query(void) const noexcept override;
 		void Execute(const std::string &command) noexcept override;
-
-		void move(void) noexcept;
-		void left(void) noexcept;
-		void right(void) noexcept;
-		void fast(void) noexcept;
+		Pose Query(void) const noexcept override;
 
 	private:
-		/// @brief The current pose of the executor
-		Pose pose;
-		bool isFast;
+		PoseHandler poseHandler;
 	};
 } // namespace adas
