@@ -3,6 +3,7 @@
 
 #include <new>
 #include <memory>
+#include <unordered_map>
 
 namespace adas
 {
@@ -20,28 +21,21 @@ namespace adas
 
 	void ExecutorImpl::Execute(const std::string &command) noexcept
 	{
+
+		std::unordered_map<char, std::unique_ptr<ICommand>> commandMap;
+
+		commandMap['M'] = std::make_unique<MoveCmd>();
+		commandMap['L'] = std::make_unique<LeftCmd>();
+		commandMap['R'] = std::make_unique<RightCmd>();
+		commandMap['F'] = std::make_unique<FastCmd>();
+		commandMap['B'] = std::make_unique<BackCmd>();
+
 		for (const char &c : command)
 		{
-			std::unique_ptr<ICommand> cmd;
-			if (c == 'M')
+			auto it = commandMap.find(c);
+			if (it != commandMap.end())
 			{
-				cmd = std::make_unique<MoveCmd>();
-			}
-			else if (c == 'L')
-			{
-				cmd = std::make_unique<LeftCmd>();
-			}
-			else if (c == 'R')
-			{
-				cmd = std::make_unique<RightCmd>();
-			}
-			else if (c == 'F')
-			{
-				cmd = std::make_unique<FastCmd>();
-			}
-			if (cmd)
-			{
-				cmd->DoOperate(poseHandler);
+				it->second->DoOperate(poseHandler);
 			}
 		}
 	}

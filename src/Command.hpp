@@ -43,4 +43,12 @@ namespace adas
 			poseHandler.Fast();
 		}
 	};
+	class BackCmd final : public ICommand
+	{
+	public:
+		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		{
+			poseHandler.Back();
+		}
+	};
 }
