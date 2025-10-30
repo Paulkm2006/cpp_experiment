@@ -4,49 +4,43 @@
 
 namespace adas
 {
-	class ICommand
-	{
-	public:
-		virtual ~ICommand() noexcept = default;
-		virtual void DoOperate(PoseHandler &poseHandler) const noexcept = 0;
-	};
 
-	class MoveCmd final : public ICommand
+	class MoveCmd final
 	{
 	public:
-		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		void operator()(PoseHandler &poseHandler) noexcept
 		{
 			poseHandler.Move();
 		}
 	};
-	class LeftCmd final : public ICommand
+	class LeftCmd final
 	{
 	public:
-		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		void operator()(PoseHandler &poseHandler) noexcept
 		{
 			poseHandler.Left();
 		}
 	};
-	class RightCmd final : public ICommand
+	class RightCmd final
 	{
 	public:
-		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		void operator()(PoseHandler &poseHandler) noexcept
 		{
 			poseHandler.Right();
 		}
 	};
-	class FastCmd final : public ICommand
+	class FastCmd final
 	{
 	public:
-		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		void operator()(PoseHandler &poseHandler) noexcept
 		{
 			poseHandler.Fast();
 		}
 	};
-	class BackCmd final : public ICommand
+	class BackCmd final
 	{
 	public:
-		void DoOperate(PoseHandler &poseHandler) const noexcept override
+		void operator()(PoseHandler &poseHandler) noexcept
 		{
 			poseHandler.Back();
 		}
