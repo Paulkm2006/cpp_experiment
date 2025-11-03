@@ -35,9 +35,7 @@ namespace adas
 	public:
 		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler, [[maybe_unused]] const CmderOrchestrator &orchestrator) noexcept
 		{
-			ActionGroup actionGroup;
-			actionGroup.PushAction(ActionType::FAST);
-			return actionGroup;
+			return ActionGroup{{ActionType::FAST}};
 		}
 	};
 	class BackCmd final
@@ -45,9 +43,7 @@ namespace adas
 	public:
 		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler, [[maybe_unused]] const CmderOrchestrator &orchestrator) noexcept
 		{
-			ActionGroup actionGroup;
-			actionGroup.PushAction(ActionType::REVERSE);
-			return actionGroup;
+			return ActionGroup{{ActionType::REVERSE}};
 		}
 	};
 

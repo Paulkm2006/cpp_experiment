@@ -11,13 +11,12 @@ namespace adas
 		ActionGroup Left(const PoseHandler &poseHandler) const noexcept override
 		{
 			ActionGroup actionGroup;
-
-			actionGroup.PushAction(ActionType::FORWARD_1_STEP);
+			actionGroup += GetStepAction(poseHandler);
 
 			actionGroup += OnFast(poseHandler);
 
 			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_LEFT : ActionType::TURN_LEFT;
-			actionGroup.PushAction(actionType);
+			actionGroup += actionType;
 
 			return actionGroup;
 		}
@@ -25,10 +24,12 @@ namespace adas
 		{
 			ActionGroup actionGroup;
 
+			actionGroup += GetStepAction(poseHandler);
+
 			actionGroup += OnFast(poseHandler);
 
 			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_RIGHT : ActionType::TURN_RIGHT;
-			actionGroup.PushAction(actionType);
+			actionGroup += actionType;
 
 			return actionGroup;
 		}

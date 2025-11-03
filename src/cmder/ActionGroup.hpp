@@ -30,8 +30,9 @@ namespace adas
 		ActionGroup &operator=(const ActionGroup &) = default;
 
 		ActionGroup &operator+=(const ActionGroup &other) noexcept;
+		ActionGroup &operator+=(const ActionType action) noexcept;
+		ActionGroup operator*(const size_t times) const noexcept;
 
-		void PushAction(const ActionType action) noexcept;
 		void DoOperate(PoseHandler &poseHandler) const noexcept;
 
 	private:

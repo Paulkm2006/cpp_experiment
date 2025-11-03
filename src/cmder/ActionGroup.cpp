@@ -73,9 +73,10 @@ namespace adas
 		}
 	};
 
-	void ActionGroup::PushAction(const ActionType action) noexcept
+	ActionGroup &ActionGroup::operator+=(const ActionType action) noexcept
 	{
 		actions.push_back(action);
+		return *this;
 	}
 
 	void ActionGroup::DoOperate(PoseHandler &poseHandler) const noexcept
@@ -104,5 +105,15 @@ namespace adas
 	{
 		actions.insert(actions.end(), other.actions.begin(), other.actions.end());
 		return *this;
+	}
+
+	ActionGroup ActionGroup::operator*(const size_t times) const noexcept
+	{
+		ActionGroup result;
+		for (size_t i = 0; i < times; ++i)
+		{
+			result += *this;
+		}
+		return result;
 	}
 }

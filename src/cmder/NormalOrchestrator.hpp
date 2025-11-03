@@ -14,7 +14,7 @@ namespace adas
 
 			actionGroup += OnFast(poseHandler);
 
-			actionGroup.PushAction(GetStepAction(poseHandler));
+			actionGroup += GetStepAction(poseHandler);
 
 			return actionGroup;
 		}
@@ -22,10 +22,10 @@ namespace adas
 		{
 			ActionGroup actionGroup;
 
-			actionGroup += OnReverse(poseHandler);
+			actionGroup += OnReverseFast(poseHandler);
 
 			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_LEFT : ActionType::TURN_LEFT;
-			actionGroup.PushAction(actionType);
+			actionGroup += actionType;
 
 			return actionGroup;
 		}
@@ -33,10 +33,10 @@ namespace adas
 		{
 			ActionGroup actionGroup;
 
-			actionGroup += OnReverse(poseHandler);
+			actionGroup += OnReverseFast(poseHandler);
 
 			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_RIGHT : ActionType::TURN_RIGHT;
-			actionGroup.PushAction(actionType);
+			actionGroup += actionType;
 
 			return actionGroup;
 		}
@@ -46,9 +46,9 @@ namespace adas
 
 			actionGroup += OnFast(poseHandler);
 
-			actionGroup.PushAction(ActionType::TURN_LEFT);
-			actionGroup.PushAction(ActionType::FORWARD_1_STEP);
-			actionGroup.PushAction(ActionType::TURN_LEFT);
+			actionGroup += ActionType::TURN_LEFT;
+			actionGroup += ActionType::FORWARD_1_STEP;
+			actionGroup += ActionType::TURN_LEFT;
 
 			return actionGroup;
 		}
@@ -66,7 +66,7 @@ namespace adas
 			}
 			return ActionGroup{};
 		}
-		ActionGroup OnReverse(const PoseHandler &poseHandler) const noexcept
+		ActionGroup OnReverseFast(const PoseHandler &poseHandler) const noexcept
 		{
 			if (poseHandler.IsBack())
 			{
