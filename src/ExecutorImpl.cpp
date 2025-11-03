@@ -1,16 +1,16 @@
 #include "ExecutorImpl.hpp"
-#include "CmderFactory.hpp"
-#include "Singleton.hpp"
+#include "cmder/CmderFactory.hpp"
+#include "core/Singleton.hpp"
 
 #include <algorithm>
 
 namespace adas
 {
-	ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept : poseHandler(pose) {}
+	ExecutorImpl::ExecutorImpl(const Pose &pose, const ExecutorType executorType) noexcept : poseHandler(pose), executorType(executorType) {}
 
-	Executor *Executor::NewExecutor(const Pose &pose) noexcept
+	Executor *Executor::NewExecutor(const Pose &pose, const ExecutorType executorType) noexcept
 	{
-		return new (std::nothrow) ExecutorImpl(pose);
+		return new (std::nothrow) ExecutorImpl(pose, executorType);
 	}
 
 	Pose ExecutorImpl::Query(void) const noexcept

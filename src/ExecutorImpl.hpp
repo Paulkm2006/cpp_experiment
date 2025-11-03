@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Executor.hpp"
-#include "PoseHandler.hpp"
+#include "core/PoseHandler.hpp"
 #include <string>
 
 namespace adas
@@ -9,7 +9,7 @@ namespace adas
 	class ExecutorImpl : public Executor
 	{
 	public:
-		explicit ExecutorImpl(const Pose &pose) noexcept;
+		explicit ExecutorImpl(const Pose &pose, const ExecutorType executorType) noexcept;
 		~ExecutorImpl() noexcept = default;
 
 		ExecutorImpl(const ExecutorImpl &) = delete;
@@ -20,5 +20,6 @@ namespace adas
 
 	private:
 		PoseHandler poseHandler;
+		ExecutorType executorType;
 	};
 } // namespace adas
