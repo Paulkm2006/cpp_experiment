@@ -23,12 +23,16 @@ namespace adas
 		CmderList GetCmders(const std::string &commands) const noexcept;
 
 	private:
+		std::string ParseCommands(const std::string_view commands) const noexcept;
+		void ReplaceAll(std::string &str, std::string_view what, std::string_view with) const noexcept;
+
 		const std::unordered_map<char, Cmder> commandMap{
 			{'M', MoveCmd()},
 			{'L', LeftCmd()},
 			{'R', RightCmd()},
 			{'F', FastCmd()},
-			{'B', BackCmd()}};
+			{'B', BackCmd()},
+			{'Z', TurnRoundCmd()}};
 	};
 
 }

@@ -10,6 +10,7 @@
 **/*.a
 **/*.lib
 **/*.exe
+**/*.pdb
 **/.*.swp
 **/.vscode/*
 src/main

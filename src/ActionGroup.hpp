@@ -24,6 +24,8 @@ namespace adas
 		ActionGroup() = default;
 		~ActionGroup() = default;
 
+		ActionGroup(const std::list<ActionType> &actions) noexcept : actions(actions) {}
+
 		ActionGroup(const ActionGroup &) = default;
 		ActionGroup &operator=(const ActionGroup &) = default;
 

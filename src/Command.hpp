@@ -74,4 +74,25 @@ namespace adas
 			return actionGroup;
 		}
 	};
+
+	class TurnRoundCmd final
+	{
+	public:
+		ActionGroup operator()(PoseHandler &poseHandler) noexcept
+		{
+			if (poseHandler.IsFast())
+			{
+				return ActionGroup({ActionType::FORWARD_1_STEP,
+									ActionType::TURN_LEFT,
+									ActionType::FORWARD_1_STEP,
+									ActionType::TURN_LEFT});
+			}
+			else
+			{
+				return ActionGroup({ActionType::TURN_LEFT,
+									ActionType::FORWARD_1_STEP,
+									ActionType::TURN_LEFT});
+			}
+		}
+	};
 }
