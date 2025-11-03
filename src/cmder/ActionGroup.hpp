@@ -29,6 +29,8 @@ namespace adas
 		ActionGroup(const ActionGroup &) = default;
 		ActionGroup &operator=(const ActionGroup &) = default;
 
+		ActionGroup &operator+=(const ActionGroup &other) noexcept;
+
 		void PushAction(const ActionType action) noexcept;
 		void DoOperate(PoseHandler &poseHandler) const noexcept;
 

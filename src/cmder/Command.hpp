@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/PoseHandler.hpp"
-#include "cmder/ActionGroup.hpp"
+#include "cmder/CmderOrchestrator.hpp"
 
 namespace adas
 {
@@ -9,55 +9,31 @@ namespace adas
 	class MoveCmd final
 	{
 	public:
-		ActionGroup operator()(PoseHandler &poseHandler) noexcept
+		ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) noexcept
 		{
-			ActionGroup actionGroup;
-
-			const auto actionType = poseHandler.IsBack() ? ActionType::BACKWARD_1_STEP : ActionType::FORWARD_1_STEP;
-
-			if (poseHandler.IsFast())
-			{
-				actionGroup.PushAction(actionType);
-			}
-			actionGroup.PushAction(actionType);
-
-			return actionGroup;
+			return orchestrator.Move(poseHandler);
 		}
 	};
 	class LeftCmd final
 	{
 	public:
-		ActionGroup operator()(PoseHandler &poseHandler) noexcept
+		ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) noexcept
 		{
-			ActionGroup actionGroup;
-			if (poseHandler.IsBack() && poseHandler.IsFast())
-			{
-				actionGroup.PushAction(ActionType::BACKWARD_1_STEP);
-			}
-			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_LEFT : ActionType::TURN_LEFT;
-			actionGroup.PushAction(actionType);
-			return actionGroup;
+			return orchestrator.Left(poseHandler);
 		}
 	};
 	class RightCmd final
 	{
 	public:
-		ActionGroup operator()(PoseHandler &poseHandler) noexcept
+		ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) noexcept
 		{
-			ActionGroup actionGroup;
-			if (poseHandler.IsBack() && poseHandler.IsFast())
-			{
-				actionGroup.PushAction(ActionType::BACKWARD_1_STEP);
-			}
-			const auto actionType = poseHandler.IsBack() ? ActionType::REVERSE_RIGHT : ActionType::TURN_RIGHT;
-			actionGroup.PushAction(actionType);
-			return actionGroup;
+			return orchestrator.Right(poseHandler);
 		}
 	};
 	class FastCmd final
 	{
 	public:
-		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler) noexcept
+		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler, [[maybe_unused]] const CmderOrchestrator &orchestrator) noexcept
 		{
 			ActionGroup actionGroup;
 			actionGroup.PushAction(ActionType::FAST);
@@ -67,7 +43,7 @@ namespace adas
 	class BackCmd final
 	{
 	public:
-		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler) noexcept
+		ActionGroup operator()([[maybe_unused]] PoseHandler &poseHandler, [[maybe_unused]] const CmderOrchestrator &orchestrator) noexcept
 		{
 			ActionGroup actionGroup;
 			actionGroup.PushAction(ActionType::REVERSE);
@@ -78,21 +54,9 @@ namespace adas
 	class TurnRoundCmd final
 	{
 	public:
-		ActionGroup operator()(PoseHandler &poseHandler) noexcept
+		ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) noexcept
 		{
-			if (poseHandler.IsFast())
-			{
-				return ActionGroup({ActionType::FORWARD_1_STEP,
-									ActionType::TURN_LEFT,
-									ActionType::FORWARD_1_STEP,
-									ActionType::TURN_LEFT});
-			}
-			else
-			{
-				return ActionGroup({ActionType::TURN_LEFT,
-									ActionType::FORWARD_1_STEP,
-									ActionType::TURN_LEFT});
-			}
+			return orchestrator.TurnRound(poseHandler);
 		}
 	};
 }

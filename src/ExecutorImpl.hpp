@@ -2,14 +2,15 @@
 
 #include "Executor.hpp"
 #include "core/PoseHandler.hpp"
-#include <string>
+#include "cmder/CmderOrchestrator.hpp"
+#include <memory>
 
 namespace adas
 {
 	class ExecutorImpl : public Executor
 	{
 	public:
-		explicit ExecutorImpl(const Pose &pose, const ExecutorType executorType) noexcept;
+		explicit ExecutorImpl(const Pose &pose, CmderOrchestrator *orchestrator) noexcept;
 		~ExecutorImpl() noexcept = default;
 
 		ExecutorImpl(const ExecutorImpl &) = delete;
@@ -21,5 +22,6 @@ namespace adas
 	private:
 		PoseHandler poseHandler;
 		ExecutorType executorType;
+		std::unique_ptr<CmderOrchestrator> orchestrator;
 	};
 } // namespace adas

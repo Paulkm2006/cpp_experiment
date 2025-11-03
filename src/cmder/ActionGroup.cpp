@@ -99,4 +99,10 @@ namespace adas
 						  }
 					  });
 	}
+
+	ActionGroup &ActionGroup::operator+=(const ActionGroup &other) noexcept
+	{
+		actions.insert(actions.end(), other.actions.begin(), other.actions.end());
+		return *this;
+	}
 }
