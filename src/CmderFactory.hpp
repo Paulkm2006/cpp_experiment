@@ -8,7 +8,7 @@
 namespace adas
 {
 
-	using Cmder = std::function<void(PoseHandler &)>;
+	using Cmder = std::function<ActionGroup(PoseHandler &)>;
 	using CmderList = std::list<Cmder>;
 
 	class CmderFactory

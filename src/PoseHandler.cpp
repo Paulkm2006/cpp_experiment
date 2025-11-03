@@ -7,65 +7,32 @@ namespace adas
 	{
 	}
 
-	void PoseHandler::Move(void) noexcept
+	void PoseHandler::Forward(void) noexcept
 	{
-		if (back)
-		{
-			point -= facing->Move();
-			if (fast)
-			{
-				point -= facing->Move();
-			}
-			return;
-		}
-		else
-		{
-			point += facing->Move();
-			if (fast)
-			{
-				point += facing->Move();
-			}
-		}
+		point += facing->Move();
+	}
+	void PoseHandler::Backward(void) noexcept
+	{
+		point -= facing->Move();
 	}
 
 	void PoseHandler::Left(void) noexcept
 	{
-		if (back)
-		{
-			if (fast)
-			{
-				point -= facing->Move();
-			}
-			facing = &facing->RightOne();
-		}
-		else
-		{
-			facing = &facing->LeftOne();
-		}
+		facing = &facing->LeftOne();
 	}
 
 	void PoseHandler::Right(void) noexcept
 	{
-		if (back)
-		{
-			if (fast)
-			{
-				point -= facing->Move();
-			}
-			facing = &facing->LeftOne();
-		}
-		else
-		{
-			facing = &facing->RightOne();
-		}
+
+		facing = &facing->RightOne();
 	}
 
-	void PoseHandler::Fast(void) noexcept
+	void PoseHandler::SetFast(void) noexcept
 	{
 		fast = !fast;
 	}
 
-	void PoseHandler::Back(void) noexcept
+	void PoseHandler::SetBack(void) noexcept
 	{
 		back = !back;
 	}

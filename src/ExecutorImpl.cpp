@@ -26,7 +26,7 @@ namespace adas
 		std::for_each(cmders.begin(), cmders.end(),
 					  [this](const Cmder &cmder) noexcept
 					  {
-						  cmder(this->poseHandler);
+						  cmder(this->poseHandler).DoOperate(this->poseHandler);
 					  });
 	}
 
