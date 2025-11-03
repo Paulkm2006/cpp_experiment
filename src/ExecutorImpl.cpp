@@ -1,10 +1,8 @@
 #include "ExecutorImpl.hpp"
-#include "Command.hpp"
+#include "CmderFactory.hpp"
+#include "Singleton.hpp"
 
-#include <new>
-#include <memory>
-#include <unordered_map>
-#include <functional>
+#include <algorithm>
 
 namespace adas
 {
@@ -23,22 +21,13 @@ namespace adas
 	void ExecutorImpl::Execute(const std::string &command) noexcept
 	{
 
-		std::unordered_map<char, std::function<void(PoseHandler &)>> commandMap;
+		const auto cmders = Singleton<CmderFactory>::Instance().GetCmders(command);
 
-		commandMap['M'] = MoveCmd();
-		commandMap['L'] = LeftCmd();
-		commandMap['R'] = RightCmd();
-		commandMap['F'] = FastCmd();
-		commandMap['B'] = BackCmd();
-
-		for (const char &c : command)
-		{
-			auto it = commandMap.find(c);
-			if (it != commandMap.end())
-			{
-				it->second(poseHandler);
-			}
-		}
+		std::for_each(cmders.begin(), cmders.end(),
+					  [this](const Cmder &cmder) noexcept
+					  {
+						  cmder(this->poseHandler);
+					  });
 	}
 
 } // namespace adas
