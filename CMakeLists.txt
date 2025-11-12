@@ -3,7 +3,12 @@ cmake_minimum_required(VERSION 3.11)
 PROJECT("CPP_EXPR")
 
 SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "/W3 /EHsc")
+
+IF(MSVC)
+	add_compile_options(/W3 /EHsc)
+ELSE()
+	add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+ENDIF()
 
 #可执行文件输出目录
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
